@@ -1,0 +1,91 @@
+You are working as a Test Engineer in XYZ Corp. Your company has decided to automate a few functionalities for one of the Banking companies. You have been asked to design a functionality to automate testing using Cypress.io framework.
+
+a)	LOGIN Test Scenario
+it('login', () => {
+cy.visit('https://www.hsbc.co.in/')
+ i) Validate Logo
+cy.get('div[class="header-logo lg-2"]').find("img").should('be.visible')
+  ii) Validate Title 
+cy.title().should('eq','HSBC India - Credit Cards, NRI Services, Saving and Deposit')
+iii) Validate Logon Button Click
+cy.contains('Log On').click({force:true})
+iv) Validate Continue disability
+	cy.contains('Continue').should('be.visible').and('be.disabled')
+ 
+
+ 
+v) Validate Continue ability
+
+vi) Validate Remember me check box
+cy.get('#username').type('randomemail@example.com');
+ cy.contains('Continue').should('be.visible').and('be.enabled');   
+ 
+vii) Validate there is a question mark tooltip
+cy.get('#rememberMe').should('not.be.checked');
+cy.get('#username_help_link>span>span.icon.icon-circle-help-solid.help-icon').should('be.visible').click({force:true});
+viii) Validate the username header
+cy.contains('Username').should('be.visible');
+ix) Validate there is a Close button
+cy.get('#username_help_link>span>span.icon.icon-circle-help-solid.help-icon').should('be.visible').click({force:true});
+ 
+
+b) ATM
+i)	Validate Header as Branches & ATM
+cy.contains('Find your nearest HSBC branch or ATM ').click({force:true})
+ cy.go('forward')
+ cy.contains('Branch & ATM locations near you').should('be.visible')
+cy.contains('h1', 'Branches & ATM').should('be.visible');
+ 
+
+ii) Validate ATM Header name is showing as Rajbhavan Road
+    cy.get('#content_main_button_1').click({force:true})
+    cy.get('#searchInput').type('India', { force: true });
+    cy.contains('India').click();
+    cy.contains('#_1521gYSzrNIMk9R-rS4Hur', 'Rajbhavan Road').should('be.visible');
+ 
+iii) Validate page is navigating to home page
+	cy.get('div[class="right-column"]').find("img").should('be.visible')
+iv) Validate Privacy Statement as Header
+cy.scrollTo('bottom');
+ cy.contains('Privacy Statement ').click({force:true})
+  //cy.go('forward')
+  cy.contains('h1', 'Privacy Statement').should('be.visible');
+
+c) Credit Card
+i) Validate Credit Card as a header text
+     cy.visit('https://www.hsbc.co.in/')
+    cy.contains('Banking Cards & Accounts').trigger('mouseover');
+    cy.contains('Credit Cards').click({force:true});
+    cy.contains('h1', 'Credit Cards').should('be.visible');
+ii) Validate Apply Now
+     cy.contains('Apply Now').click({force:true});
+ 
+iii) Validate image
+       cy.get('.grid O-SMARTSPCGENGRID:first').should('have.length', 4);;
+       cy.get('.A-IMAGE-RW-ALL smart-image-img').find("img").should('be.visible');
+     cy.get('.A-LNKND38L-RW-ALL text-container text h1').should('have.text', 'HSBC Cashback Credit Card');
+iv) Validate Select cards
+cy.get('.grid O-SMARTSPCGENGRI:first').within(() => {
+      cy.contains('Compare cards').should('exist');
+      cy.contains('Find out more').should('exist');
+      cy.contains('Apply now').should('exist');
+    });
+v) Validate popups
+cy.get('.grid O-SMARTSPCGENGRI:first').contains('Compare cards').click();
+cy.get('.modal-dialog').should('exist').contains('.close-button').should('exist');
+     cy.contains('.A-TYPS2R-RW-DEV h2', 'Select cards to compare').should('exist');
+     cy.get('.modal-dialog').should('have.length', 4);
+cy.get('.modal-checkbox:nth-child(1) input').check();
+     cy.get('.modal-checkbox:nth-child(2) input').check();
+     cy.get('.A-BTNP-RW-ALL').click();
+cy.get('.selected-cards').should('have.length', 2);
+cy.get('.selected-cards .remove-link').should('have.length', 2);
+    cy.get('.add-card-link').click();
+    cy.get('.modal-checkbox:nth-child(3) input').check();
+    cy.get('.selected-cards').should('have.length', 3);
+    cy.get('.selected-cards .remove-link').should('have.length', 3);
+       cy.get('.selected-cards .remove-link:first').click();
+        cy.get('.selected-cards').should('have.length', 2);
+    cy.get('.add-card-link').click();
+cy.get('.modal-dialog .close-button').click();
+        cy.get('.modal-dialog').should('not.exist');
